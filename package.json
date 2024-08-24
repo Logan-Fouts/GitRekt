@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@octokit/rest": "^21.0.2",
     "axios": "^1.7.4",
     "dotenv": "^16.4.5",
     "lucide-react": "^0.429.0",
