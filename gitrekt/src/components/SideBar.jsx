@@ -36,6 +36,7 @@ const ListItem = (props) => {
 
 export default function SideBar(props) {
   const Sections = [
+    { name: "Info", imgsrc: "icons/info.png" },
     { name: "Local", imgsrc: "icons/monitor.png" },
     { name: "Remote", imgsrc: "icons/cloud.png" },
     { name: "Pull Requests", imgsrc: "icons/pull-request.png" },
