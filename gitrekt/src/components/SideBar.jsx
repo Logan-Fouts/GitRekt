@@ -25,7 +25,11 @@ const ListItem = (props) => {
           alt="Expand arrow"
         />
       </li>
-      {isActive ? <SectionContent name={props.name} /> : null}
+      {isActive ? (
+        <div>
+          <SectionContent name={props.name} reponame={props.reponame} owner={props.owner} />
+        </div>
+      ) : null}
     </>
   );
 };
@@ -43,7 +47,7 @@ export default function SideBar(props) {
       <a className="p-2 text-3xl font-bold">{props.reponame}</a>
       <ul className="flex flex-col w-4/5 h-full mt-2">
         {Sections.map((section, index) => (
-          <ListItem key={index} name={section.name} imgsrc={section.imgsrc} />
+          <ListItem key={index} name={section.name} imgsrc={section.imgsrc} reponame={props.reponame} owner={props.owner} />
         ))}
       </ul>
       <p className="p-2">By: Logan Fouts</p>

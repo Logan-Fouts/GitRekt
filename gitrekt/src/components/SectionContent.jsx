@@ -1,49 +1,75 @@
-"use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import APIService from './services/APIService';
 
-// TODO: Make API calls and format data
-const LocalContent = () => {
-  return <div>Local</div>;
+const gitToken = ''
+
+const LocalContent = ({ reponame, owner }) => {
+  const [repoInfo, setRepoInfo] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let API = new APIService(owner, reponame, gitToken);
+        console.log(gitToken)
+        let response = await API.getGeneralRepoInfo();
+        setRepoInfo(response);
+        // console.log(response);
+      } catch (err) {
+        console.error('Error fetching repo info:', err);
+        setError(err.message);
+      }
+    };
+
+    fetchData();
+  }, [reponame, owner]);
+
+  if (error) return <div>Error: {error}</div>;
+  if (!repoInfo) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <h2>Local: {reponame}</h2>
+      <p>Owner: {owner}</p>
+      <p>Description: {repoInfo.description}</p>
+      <p>Stars: {repoInfo.stargazers_count}</p>
+    </div>
+  );
 };
 
-const RemoteContent = () => {
-  return <div>Remote</div>;
+const RemoteContent = ({ reponame }) => {
+  return <div>Remote: {reponame}</div>;
 };
 
-const PullRequestsContent = () => {
-  return <div>PR&apos;s</div>;
+const PullRequestsContent = ({ reponame }) => {
+  return <div>PR&apos;s: {reponame}</div>;
 };
 
-const IssuesContent = () => {
-  return <div>Issues</div>;
+const IssuesContent = ({ reponame }) => {
+  return <div>Issues: {reponame}</div>;
 };
 
-const TagsContent = () => {
-  return <div>Tags</div>;
+const TagsContent = ({ reponame }) => {
+  return <div>Tags: {reponame}</div>;
 };
 
-function fetchData(name) {
-  let content = null;
+function fetchData(name, reponame, owner) {
   switch (name.toLowerCase()) {
     case "local":
-      content = <LocalContent />;
-      break;
+      return <LocalContent reponame={reponame} owner={owner} />;
     case "remote":
-      content = <RemoteContent />;
-      break;
+      return <RemoteContent reponame={reponame} />;
     case "pull requests":
-      content = <PullRequestsContent />;
-      break;
+      return <PullRequestsContent reponame={reponame} />;
     case "issues":
-      content = <IssuesContent />;
-      break;
+      return <IssuesContent reponame={reponame} />;
     case "tags":
-      content = <TagsContent />;
-      break;
+      return <TagsContent reponame={reponame} />;
+    default:
+      return null;
   }
-  return content;
 }
 
 export default function SectionContent(props) {
-  return <div>{fetchData(props.name)} Content</div>;
+  return <div>{fetchData(props.name, props.reponame, props.owner)} Content</div>;
 }
