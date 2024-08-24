@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import APIService from "./services/APIService";
+import LoadingIcon from "./LoadingIcon";
 
-const gitToken = "";
 const cache = new Map();
 
 const PullRequestsContent = ({ reponame, owner }) => {
@@ -16,7 +16,7 @@ const PullRequestsContent = ({ reponame, owner }) => {
         return;
       }
       try {
-        let API = new APIService(owner, reponame, gitToken);
+        let API = new APIService(owner, reponame);
         let response = await API.getPullRequests();
         cache.set(cacheKey, response);
         setPRInfo(response);
@@ -28,7 +28,7 @@ const PullRequestsContent = ({ reponame, owner }) => {
     fetchData();
   }, [reponame, owner]);
 
-  if (!prInfo) return <div>Loading...</div>;
+  if (!prInfo) return <LoadingIcon />;
 
   return <PullRequests pullrequests={prInfo} />;
 };
@@ -46,7 +46,7 @@ const PullRequests = ({ pullrequests }) => {
                 href={pr.html_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:underline text-sm"
+                  className="text-krakblue hover:underline text-sm"
               >
                 #{pr.number}: {pr.title}
               </a>

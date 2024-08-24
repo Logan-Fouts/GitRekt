@@ -12,13 +12,16 @@ const ListItem = (props) => {
 
   return (
     <>
-      <li className="flex border-t items-center w-full p-2 text-sm" onClick={toggleActive}>
+      <li
+        className="flex border-t border-t-slate-300 items-center w-full p-2 text-sm"
+        onClick={toggleActive}
+      >
         <img
           src={props.imgsrc}
           className="w-4 h-4 mr-2"
           alt={props.name + " icon"}
         />
-        <p className="flex-grow text-start text-white">{props.name}</p>
+        <p className="flex-grow text-start text-slate-300">{props.name}</p>
         {isActive ? (
           <img
             src="icons/arrow.png"
@@ -56,7 +59,7 @@ export default function SideBar(props) {
     { name: "Tags", imgsrc: "icons/tags.png" },
   ];
   return (
-    <div className="flex flex-col bg-slate-700 w-2/12 h-screen">
+    <div className="flex flex-col bg-kraklgrey w-2/12 h-screen">
       <a className="p-2 text-3xl font-bold">{props.reponame}</a>
       <ul className="flex flex-col w-full h-full mt-2">
         {Sections.map((section, index) => (

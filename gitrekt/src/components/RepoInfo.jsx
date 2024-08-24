@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import APIService from "./services/APIService";
+import LoadingIcon from "./LoadingIcon";
 
-const gitToken = "";
 const cache = new Map();
 
 const RepoInfo = ({ owner, repoInfo }) => {
@@ -21,7 +21,7 @@ const RepoInfo = ({ owner, repoInfo }) => {
               clipRule="evenodd"
             />
           </svg>
-            {owner}
+          {owner}
         </p>
         <p className="flex text-sm items-center text-gray-300">
           <svg
@@ -60,7 +60,7 @@ const InfoContent = ({ reponame, owner }) => {
         return;
       }
       try {
-        let API = new APIService(owner, reponame, gitToken);
+        let API = new APIService(owner, reponame);
         let response = await API.getGeneralRepoInfo();
         cache.set(cacheKey, response);
         setRepoInfo(response);
@@ -72,7 +72,7 @@ const InfoContent = ({ reponame, owner }) => {
     fetchData();
   }, [reponame, owner]);
 
-  if (!repoInfo) return <div>Loading...</div>;
+  if (!repoInfo) return <LoadingIcon />;
 
   return <RepoInfo owner={owner} repoInfo={repoInfo} />;
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import APIService from "./services/APIService";
+import LoadingIcon from "./LoadingIcon";
 
-const gitToken = "";
 const cache = new Map();
 
 const IssuesInfo = ({ issueInfo }) => {
@@ -12,16 +12,13 @@ const IssuesInfo = ({ issueInfo }) => {
       {filteredIssues.length > 0 ? (
         <ul className="space-y-2">
           {filteredIssues.map((issue) => (
-            <li
-              key={issue.id}
-              className="border-gray-300 pb-2"
-            >
+            <li key={issue.id} className="border-gray-300 pb-2">
               <div className="flex items-center justify-between">
                 <a
                   href={issue.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm font-semibold text-blue-600 hover:underline"
+                  className="text-sm font-semibold text-krakblue hover:underline"
                 >
                   #{issue.number}: {issue.title}
                 </a>
@@ -96,10 +93,10 @@ const IssuesContent = ({ reponame, owner }) => {
         return;
       }
       try {
-        let API = new APIService(owner, reponame, gitToken);
+        let API = new APIService(owner, reponame);
         let response = await API.getIssues();
         cache.set(cacheKey, response);
-        console.log("using cached")
+        console.log("using cached");
         setIssueInfo(response);
       } catch (err) {
         console.error("Error fetching issues:", err);
@@ -109,7 +106,7 @@ const IssuesContent = ({ reponame, owner }) => {
     fetchData();
   }, [reponame, owner]);
 
-  if (!issueInfo) return <div>Loading...</div>;
+  if (!issueInfo) return <LoadingIcon />;
 
   return <IssuesInfo issueInfo={issueInfo} />;
 };

@@ -12,6 +12,12 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      colors: {
+        kraklgrey: '#272b30',
+        krakdgrey: '#1c1f22',
+        krakblue: '#216dcf',
+        krakgrey: '#757b81',
+      },
     },
   },
   plugins: [],

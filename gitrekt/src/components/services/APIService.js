@@ -1,10 +1,10 @@
 import { Octokit } from "@octokit/rest";
 
 class APIService {
-  constructor(owner, repo, token) {
+  constructor(owner, repo) {
     this.repo = repo;
     this.owner = owner;
-    this.token = token;
+    this.token = "";
     this.octokit = new Octokit({ auth: this.token });
   }
 
@@ -54,6 +54,18 @@ class APIService {
       return response.data;
     } catch (error) {
       console.error("Error fetching issues:", error);
+    }
+  }
+
+  async getTags() {
+    try {
+      const response = await this.octokit.repos.listTags({
+        owner: this.owner,
+        repo: this.repo,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching tags:", error);
     }
   }
 }

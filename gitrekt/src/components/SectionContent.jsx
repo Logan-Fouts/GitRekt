@@ -19,7 +19,7 @@ function fetchData(name, reponame, owner) {
     case "issues":
       return <IssuesContent reponame={reponame} owner={owner} />;
     case "tags":
-      return <TagsContent reponame={reponame} />;
+      return <TagsContent reponame={reponame} owner={owner} />;
     default:
       return null;
   }
