@@ -17,6 +17,7 @@ module.exports = {
         krakdgrey: '#1c1f22',
         krakblue: '#216dcf',
         krakgrey: '#757b81',
+        kraktopgrey: '#33373f',
       },
     },
   },

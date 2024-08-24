@@ -5,7 +5,6 @@ import LoadingIcon from "./LoadingIcon";
 const cache = new Map();
 
 const RemoteInfo = ({ remoteInfo }) => {
-  console.log(remoteInfo)
   return (
     <div className="pl-4">
       {remoteInfo && remoteInfo.length > 0 ? (

@@ -60,7 +60,6 @@ export default function SideBar(props) {
   ];
   return (
     <div className="flex flex-col bg-kraklgrey w-2/12 h-screen">
-      <a className="p-2 text-3xl font-bold">{props.reponame}</a>
       <ul className="flex flex-col w-full h-full mt-2">
         {Sections.map((section, index) => (
           <ListItem

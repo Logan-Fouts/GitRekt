@@ -5,6 +5,10 @@ class APIService {
     this.repo = repo;
     this.owner = owner;
     this.token = "";
+    console.log("Token:", this.token);
+    if (this.token == "") {
+      throw new Error("GitHub token not found");
+    }
     this.octokit = new Octokit({ auth: this.token });
   }
 
