@@ -7,7 +7,7 @@ export default function Home() {
     <div className='w-full'>
       <TopBar reponame='PicPurge' />
       <div className='flex justify-between'>
-        <SideBar href='https://github.com/Logan-Fouts/GitRekt' reponame='GitRekt' owner='Logan-Fouts' repodir='~/Code/Thesis' />
+        <SideBar href='https://github.com/Logan-Fouts/PicPurge' reponame='PicPurge' owner='Logan-Fouts' repodir='~/Code/PicPurge' />
         <CommitSection />
       </div>
     </div>
