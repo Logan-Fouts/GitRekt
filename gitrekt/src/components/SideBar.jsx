@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SectionContent from "./SectionContent";
 
 const ListItem = (props) => {
@@ -50,6 +50,17 @@ const ListItem = (props) => {
 };
 
 export default function SideBar(props) {
+  const [repoName, setRepoName] = useState("TBD");
+
+  useEffect (() => {
+    if (typeof window != 'undefined' && window.localStorage) {
+      let sotredRepoName = localStorage.getItem('repo_name');
+      if (sotredRepoName) {
+        setRepoName(sotredRepoName);
+      }
+    }
+  }, []);
+
   const Sections = [
     { name: "Info", imgsrc: "icons/info.png" },
     { name: "Local", imgsrc: "icons/monitor.png" },
@@ -66,7 +77,7 @@ export default function SideBar(props) {
             key={index}
             name={section.name}
             imgsrc={section.imgsrc}
-            reponame={props.reponame}
+            reponame={repoName}
             owner={props.owner}
           />
         ))}

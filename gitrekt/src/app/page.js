@@ -5,9 +5,10 @@ import CommitSection from '@/components/CommitSection';
 export default function Home() {
   return (
     <div className='w-full'>
-      <TopBar reponame='PicPurge' />
+      <TopBar />
       <div className='flex justify-between'>
-        <SideBar href='https://github.com/Logan-Fouts/PicPurge' reponame='PicPurge' owner='Logan-Fouts' repodir='~/Code/PicPurge' />
+        {/* <SideBar href='https://github.com/Logan-Fouts/PicPurge' reponame={repoName} owner='Logan-Fouts' repodir={repoDir} /> */}
+        <SideBar href='https://github.com/Logan-Fouts/Thesis' owner='Logan-Fouts' />
         <CommitSection />
       </div>
     </div>

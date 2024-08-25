@@ -1,4 +1,6 @@
-import React from "react";
+/* eslint-disable @next/next/no-img-element */
+"use client"
+import React, { useState, useEffect } from "react";
 
 const Button = ({ label, onClick, imgsrc }) => (
   <div className="flex flex-col items-center">
@@ -12,11 +14,22 @@ const Button = ({ label, onClick, imgsrc }) => (
   </div>
 );
 
-export default function TopBar({ reponame }) {
+export default function TopBar() {
+  const [repoName, setRepoName] = useState("TBD");
+
+  useEffect (() => {
+    if (typeof window != 'undefined' && window.localStorage) {
+      let storedRepoName = localStorage.getItem('repo_name');
+      if (storedRepoName) {
+        setRepoName(storedRepoName);
+      }
+    }
+  }, []);
+
   return (
     <div className="pl-2 bg-kraktopgrey flex items-center">
       <div className="text-gray-200 font-semibold text-2xl w-1/4">
-        {reponame}
+        {repoName}
       </div>
       <div className="flex-grow flex justify-center space-x-4">
         <Button label="Pull" imgsrc="icons/pull.png" />
