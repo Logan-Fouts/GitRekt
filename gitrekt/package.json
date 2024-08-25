@@ -2,7 +2,7 @@
   "name": "gitrekt",
   "version": "0.1.0",
   "private": true,
-  "main": "electron.js",
+  "main": "Electron/electron.js",
   "scripts": {
     "dev": "concurrently \"cross-env BROWSER=none next dev\" \"wait-on http://localhost:3000 && electron .\"",
     "build": "next build",
