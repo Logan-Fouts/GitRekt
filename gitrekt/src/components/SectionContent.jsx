@@ -11,7 +11,7 @@ function fetchData(name, reponame, owner) {
     case "remote":
       return <RemoteContent reponame={reponame} owner={owner} />;
     case "local":
-      return <LocalContent reponame={reponame} />;
+      return <LocalContent reponame={reponame} owner={owner} />;
     case "info":
       return <InfoContent reponame={reponame} owner={owner} />;
     case "pull requests":

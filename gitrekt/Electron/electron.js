@@ -1,6 +1,9 @@
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 const { execSync } = require('child_process');
+const fs = require('fs').promises;
+const url = require('url');
+
 
 let isDev;
 let mainWindow;
@@ -30,6 +33,39 @@ async function createWindow() {
   );
 }
 
+async function modifyEnvFile(key, value) {
+  try {
+    const envPath = path.join(app.getAppPath(), '.env');
+    let envContent = '';
+
+    try {
+      envContent = await fs.readFile(envPath, 'utf8');
+    } catch (error) {
+      if (error.code !== 'ENOENT') {
+        throw error;
+      }
+    }
+
+    const envLines = envContent.split('\n');
+    const keyIndex = envLines.findIndex(line => line.startsWith(`${key}=`));
+
+    if (keyIndex !== -1) {
+      envLines[keyIndex] = `${key}=${value}`;
+    } else {
+      envLines.push(`${key}=${value}`);
+    }
+
+    const updatedEnvContent = envLines.join('\n');
+    await fs.writeFile(envPath, updatedEnvContent, 'utf8');
+
+    console.log(`Successfully updated ${key} in .env file`);
+    return true;
+  } catch (error) {
+    console.error('Error modifying .env file:', error);
+    return false;
+  }
+}
+
 async function handleDirectorySelect() {
   const { canceled, filePaths } = await dialog.showOpenDialog(mainWindow, {
     properties: ['openDirectory']
@@ -43,43 +79,64 @@ async function handleDirectorySelect() {
 }
 
 function getGitRepoInfo(repoPath) {
-    try {
-        // Get current branch
-        const currentBranch = execSync('git rev-parse --abbrev-ref HEAD', { cwd: repoPath, encoding: 'utf8' }).trim();
+  try {
+    // Get current branch
+    const currentBranch = execSync('git rev-parse --abbrev-ref HEAD', { cwd: repoPath, encoding: 'utf8' }).trim();
 
-        // Get remote names
-        const remotes = execSync('git remote', { cwd: repoPath, encoding: 'utf8' })
-            .split('\n')
-            .filter(Boolean);
+    // Get remote names
+    const remotes = execSync('git remote', { cwd: repoPath, encoding: 'utf8' })
+      .split('\n')
+      .filter(Boolean);
 
-        // Get remote URLs and extract repo name
-        let remoteUrls = {};
-        let repoName = '';
-        if (remotes.length > 0) {
-            const firstRemoteUrl = execSync(`git remote get-url ${remotes[0]}`, { cwd: repoPath, encoding: 'utf8' }).trim();
-            remoteUrls[remotes[0]] = firstRemoteUrl;
-            
-            // Extract the repo name (last part of the URL)
-            repoName = firstRemoteUrl.split('/').pop().replace('.git', '');
-        }
+    let remoteUrls = {};
+    let repoName = '';
+    let ownerName = '';
+    let githubUrl = '';
 
-        return {
-            repoPath,
-            currentBranch,
-            remotes,
-            remoteUrls,
-            repoName
-        };
-    } catch (error) {
-        console.error('Error retrieving Git repository information:', error.message);
-        return null;
+    if (remotes.length > 0) {
+      let firstRemoteUrl = execSync(`git remote get-url ${remotes[0]}`, { cwd: repoPath, encoding: 'utf8' }).trim();
+      remoteUrls[remotes[0]] = firstRemoteUrl;
+
+      // Handle SSH URLs
+      if (firstRemoteUrl.startsWith('git@github.com:')) {
+        firstRemoteUrl = 'https://github.com/' + firstRemoteUrl.slice('git@github.com:'.length);
+      }
+
+      // Parse the remote URL
+      const parsedUrl = url.parse(firstRemoteUrl);
+      const pathParts = parsedUrl.path.split('/').filter(Boolean);
+
+      if (pathParts.length >= 2) {
+        ownerName = pathParts[pathParts.length - 2];
+        repoName = pathParts[pathParts.length - 1].replace('.git', '');
+
+        // Construct GitHub URL
+        githubUrl = `https://github.com/${ownerName}/${repoName}`;
+      }
     }
+
+    return {
+      repoPath,
+      currentBranch,
+      remotes,
+      remoteUrls,
+      repoName,
+      ownerName,
+      githubUrl
+    };
+  } catch (error) {
+    console.error('Error retrieving Git repository information:', error.message);
+    return null;
+  }
 }
 
 app.whenReady().then(() => {
   createWindow();
 
   ipcMain.handle('dialog:selectDirectory', handleDirectorySelect);
+  ipcMain.handle('env:modify', async (event, key, value) => {
+    return await modifyEnvFile(key, value);
+  });
 });
 
 app.on('window-all-closed', () => {

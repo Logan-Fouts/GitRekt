@@ -50,6 +50,8 @@ const RepoInfo = ({ owner, repoInfo }) => {
 
 const InfoContent = ({ reponame, owner }) => {
   const [repoInfo, setRepoInfo] = useState(null);
+  console.log("here")
+  console.log(owner)
 
   useEffect(() => {
     const fetchData = async () => {

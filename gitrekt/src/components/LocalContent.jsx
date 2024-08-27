@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import APIService from "./services/APIService";
+import StorageService from "./services/StorageService";
 
 const cache = new Map();
 
@@ -77,10 +78,11 @@ const LocalContent = ({ reponame, owner }) => {
   } else if (!localRepoInfo) {
     return <div>Selecting directory...</div>;
   }
-  localStorage.setItem("repo_dir", localRepoInfo.repoPath);
-  localStorage.setItem("repo_name", localRepoInfo.repoName);
-  console.log(localStorage);
-  // location.reload();
+  let storageService = new StorageService()
+  storageService.setItem("repoDir", localRepoInfo.repoPath)
+  storageService.setItem("repoName", localRepoInfo.repoName)
+  storageService.setItem("githubURL", localRepoInfo.githubUrl)
+  storageService.setItem("owner", localRepoInfo.ownerName)
 
   return <LocalInfo localRepoInfo={localRepoInfo} />;
 };

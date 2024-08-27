@@ -45,6 +45,7 @@ const RemoteInfo = ({ remoteInfo }) => {
 };
 
 const RemoteContent = ({ reponame, owner }) => {
+  console.log(owner)
   const [remoteInfo, setRemoteInfo] = useState(null);
 
   useEffect(() => {

@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 import React, { useState, useEffect } from "react";
+import StorageService from "./services/StorageService";
+import EventBus from "./services/EventBus";
 
 const Button = ({ label, onClick, imgsrc }) => (
   <div className="flex flex-col items-center">
@@ -15,15 +17,28 @@ const Button = ({ label, onClick, imgsrc }) => (
 );
 
 export default function TopBar() {
-  const [repoName, setRepoName] = useState("TBD");
+  const [repoName, setRepoName] = useState(null);
 
-  useEffect (() => {
-    if (typeof window != 'undefined' && window.localStorage) {
-      let storedRepoName = localStorage.getItem('repo_name');
-      if (storedRepoName) {
-        setRepoName(storedRepoName);
+  useEffect(() => {
+    async function fetchRepoName() {
+      try {
+        const storageService = new StorageService();
+        const name = await storageService.getItem('repoName');
+        setRepoName(name);
+      } catch (error) {
+        console.error('Failed to fetch repoName from storage:', error);
       }
     }
+    
+    fetchRepoName();
+
+    function handleStorageChange(event) {
+      if (event.key === 'repoName') {
+        fetchRepoName();
+      }
+    }
+
+    EventBus.on('storageChanged', handleStorageChange);
   }, []);
 
   return (

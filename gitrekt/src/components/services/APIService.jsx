@@ -17,6 +17,10 @@ class APIService {
       return response.data;
     } catch (error) {
       console.error("Error fetching repo info:", error);
+      console.log("Owner:")
+      console.log(this.owner)
+      console.log("Repo:")
+      console.log(this.repo)
       throw error;
     }
   }
