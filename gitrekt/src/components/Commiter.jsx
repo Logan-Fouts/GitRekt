@@ -55,13 +55,13 @@ const MessageForm = ({ repoPath }) => {
           onClick={handleAddFiles}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
-          Add Untracked Files
+          Add Files
         </button>
         <button
           onClick={handleCommit}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
-          Submit Message
+          Commit
         </button>
       </div>
     </>

@@ -3,7 +3,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 const fs = require('fs').promises;
 const url = require('url');
-
+const simpleGit = require('simple-git');
 
 let isDev;
 let mainWindow;
@@ -161,6 +161,29 @@ function gitCommit(repoPath, message) {
   }
 }
 
+
+async function gitPush(repoPath, remote = 'origin', branch = 'HEAD') {
+  try {
+    execSync('git push', { cwd: repoPath, encoding: 'utf8' }).trim();
+    console.log('Push successful:');
+    return { success: true, message: 'Push successful' };
+  } catch (error) {
+    console.error('Error pushing changes:', error.message);
+    return { success: false, message: error.message };
+  }
+}
+
+async function gitPull(repoPath, remote = 'origin', branch = 'HEAD') {
+  try {
+    execSync('git pull', { cwd: repoPath, encoding: 'utf8' }).trim();
+    console.log('Pull successful:');
+    return { success: true, message: 'Pull successful'};
+  } catch (error) {
+    console.error('Error pulling changes:', error.message);
+    return { success: false, message: error.message };
+  }
+}
+
 app.whenReady().then(() => {
   createWindow();
 
@@ -173,6 +196,22 @@ app.whenReady().then(() => {
   });
   ipcMain.handle('git:gitCommit', async (event, repoPath, message) => {
     return gitCommit(repoPath, message);
+  });
+  ipcMain.handle('git:getGitLog', async (event, repoPath) => {
+    try {
+      const git = simpleGit(repoPath);
+      const log = await git.log(['--all', '--decorate', '--graph']);
+      return log.all;
+    } catch (error) {
+      console.error('Error getting Git log:', error.message);
+      throw error;
+    }
+  });
+  ipcMain.handle('git:push', async (event, repoPath, remote, branch) => {
+    return gitPush(repoPath, remote, branch);
+  });
+  ipcMain.handle('git:pull', async (event, repoPath, remote, branch) => {
+    return gitPull(repoPath, remote, branch);
   });
   ipcMain.handle('env:modify', async (event, key, value) => {
     return await modifyEnvFile(key, value);

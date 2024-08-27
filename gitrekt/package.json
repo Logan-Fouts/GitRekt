@@ -11,6 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@gitgraph/react": "^1.6.0",
     "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -19,7 +20,9 @@
     "lucide-react": "^0.436.0",
     "next": "14.2.6",
     "react": "^18",
+    "react-d3-tree": "^3.6.2",
     "react-dom": "^18",
+    "simple-git": "^3.25.0",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {

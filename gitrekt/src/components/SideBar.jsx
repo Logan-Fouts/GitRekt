@@ -59,7 +59,7 @@ export default function SideBar(props) {
     { name: "Tags", imgsrc: "icons/tags.png" },
   ];
   return (
-    <div className="flex flex-col bg-kraklgrey w-2/12">
+    <div className="flex flex-col bg-kraklgrey w-2/12 min-w-[200px] max-w-[250px]">
       <ul className="flex flex-col w-full h-full mt-2">
         {Sections.map((section, index) => (
           <ListItem

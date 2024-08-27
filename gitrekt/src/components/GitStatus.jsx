@@ -22,21 +22,21 @@ const GitStatus = ({ repoPath }) => {
     getGitStatus();
   }, [repoPath]);
 
-  if (loading) return <div className="text-gray-600">Loading Git status...</div>;
+  if (loading)
+    return <div className="text-gray-600">Loading Git status...</div>;
   if (error) return <div className="text-red-500">Error: {error}</div>;
 
   return (
-    <div className="p-4 max-w-full">
-      <h3 className="text-lg font-semibold mb-2">Git Status:</h3>
-      <pre className=" p-2 rounded overflow-hidden text-ellipsis max-w-full">
+    <div className="p-4 w-full">
+      <div className="flex justify-between mb-4 items-center">
+        <h3 className="text-lg font-semibold">Git Status:</h3>
+        <button onClick={getGitStatus}>
+          <img src="/icons/refresh.png" className="w-10" />
+        </button>
+      </div>
+      <pre className="rounded overflow-hidden text-ellipsis max-w-full">
         {status}
       </pre>
-      <button 
-        onClick={getGitStatus}
-        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-      >
-        Refresh Status
-      </button>
     </div>
   );
 };

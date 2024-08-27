@@ -7,6 +7,7 @@ import StorageService from '@/components/services/StorageService';
 import LocalContent from '@/components/LocalContent';
 import EventBus from '@/components/services/EventBus';
 import ApiTokenPrompt from '@/components/ApiTokenPrompt';
+import GitTree from '@/components/GitTree';
 
 
 export default function Home() {
@@ -59,6 +60,7 @@ export default function Home() {
           </div>
           <div className='flex justify-between h-full'>
             <SideBar owner={ownerName} repoName={repoName} />
+            <GitTree repoPath={repoDir}/>
             <CommitSection repoPath={repoDir}/>
           </div>
         </>
