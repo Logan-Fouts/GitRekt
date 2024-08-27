@@ -2,6 +2,8 @@
 
 GitRekt is a React/Electron application designed to [brief description of what your app does].
 
+![GitRekt Application Screenshot](./public/app.png)
+
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
