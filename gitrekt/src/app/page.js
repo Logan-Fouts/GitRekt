@@ -50,13 +50,16 @@ export default function Home() {
 
 
   return (
-    <div className='w-full'>
+    <div className='w-full h-screen overflow-hidden'>
       {!process.env.NEXT_PUBLIC_TOKEN ? (<ApiTokenPrompt />) : null}
       {ready ? (
         <>
-          <TopBar reponame={repoName} /><div className='flex justify-between'>
+          <div className='h-1/12'>
+            <TopBar reponame={repoName} />
+          </div>
+          <div className='flex justify-between h-full'>
             <SideBar owner={ownerName} repoName={repoName} />
-            <CommitSection />
+            <CommitSection repoPath={repoDir}/>
           </div>
         </>
       ) : (

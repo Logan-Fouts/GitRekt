@@ -110,7 +110,6 @@ function getGitRepoInfo(repoPath) {
         ownerName = pathParts[pathParts.length - 2];
         repoName = pathParts[pathParts.length - 1].replace('.git', '');
 
-        // Construct GitHub URL
         githubUrl = `https://github.com/${ownerName}/${repoName}`;
       }
     }
@@ -130,10 +129,51 @@ function getGitRepoInfo(repoPath) {
   }
 }
 
+function getGitStatus(repoPath) {
+  try {
+    const status = execSync('git status --porcelain', { cwd: repoPath, encoding: 'utf8' }).trim();
+    return status;
+  } catch (error) {
+    console.error('Error getting Git status:', error.message);
+    return null;
+  }
+}
+
+
+function gitAdd(repoPath) {
+  try {
+    execSync('git add .', { cwd: repoPath, encoding: 'utf8' }).trim();
+  } catch (error) {
+    console.error('Error getting Git status:', error.message);
+    return null;
+  }
+}
+
+function gitCommit(repoPath, message) {
+  try {
+    const escapedMessage = message.replace(/"/g, '\\"');
+    const result = execSync(`git commit -m "${escapedMessage}"`, { cwd: repoPath, encoding: 'utf8' });
+    console.log('Commit successful:', result);
+    return result;
+  } catch (error) {
+    console.error('Error committing changes:', error.message);
+    return null;
+  }
+}
+
 app.whenReady().then(() => {
   createWindow();
 
   ipcMain.handle('dialog:selectDirectory', handleDirectorySelect);
+  ipcMain.handle('git:getStatus', async (event, repoPath) => {
+    return getGitStatus(repoPath);
+  });
+  ipcMain.handle('git:gitAdd', async (event, repoPath) => {
+    return gitAdd(repoPath);
+  });
+  ipcMain.handle('git:gitCommit', async (event, repoPath, message) => {
+    return gitCommit(repoPath, message);
+  });
   ipcMain.handle('env:modify', async (event, key, value) => {
     return await modifyEnvFile(key, value);
   });

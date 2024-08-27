@@ -59,7 +59,7 @@ export default function SideBar(props) {
     { name: "Tags", imgsrc: "icons/tags.png" },
   ];
   return (
-    <div className="flex flex-col bg-kraklgrey w-2/12 h-screen">
+    <div className="flex flex-col bg-kraklgrey w-2/12">
       <ul className="flex flex-col w-full h-full mt-2">
         {Sections.map((section, index) => (
           <ListItem
@@ -71,7 +71,7 @@ export default function SideBar(props) {
           />
         ))}
       </ul>
-      <p className="p-2">By: Logan Fouts</p>
+      <p className="pb-20 pl-2">By: Logan Fouts</p>
     </div>
   );
 }

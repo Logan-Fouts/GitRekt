@@ -42,7 +42,7 @@ export default function TopBar() {
   }, []);
 
   return (
-    <div className="pl-2 bg-kraktopgrey flex items-center">
+    <div className="pl-2 bg-kraktopgrey flex items-center h-1/12">
       <div className="text-gray-200 font-semibold text-2xl w-1/4">
         {repoName}
       </div>

@@ -8,7 +8,7 @@ class StorageService {
 
   async checkAvailability() {
     const maxAttempts = 20;
-    const delay = 100;
+    const delay = 1000;
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
       if (this.isLocalStorageAvailable()) {
