@@ -7,7 +7,7 @@ export default function CommitSection({ repoPath }) {
     <div className="w-5/12 bg-kraklgrey flex flex-col items-center justify-between min-w-[150px] max-w-[600px]">
       <GitStatus repoPath={repoPath}/>
       <div className='pl-4 pr-4 w-full'>
-        <Commiter />
+        <Commiter repoPath={repoPath}/>
       </div>
     </div>
   );

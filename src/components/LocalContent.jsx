@@ -83,6 +83,7 @@ const LocalContent = ({ reponame, owner }) => {
   storageService.setItem("repoName", localRepoInfo.repoName)
   storageService.setItem("githubURL", localRepoInfo.githubUrl)
   storageService.setItem("owner", localRepoInfo.ownerName)
+  location.reload();
 
   return <LocalInfo localRepoInfo={localRepoInfo} />;
 };
